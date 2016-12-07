@@ -29,5 +29,3 @@ class Video():
 		cv2.destroyAllWindows()
 		pass
 	pass
-App = Video()
-App.imagen()
