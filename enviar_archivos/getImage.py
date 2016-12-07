@@ -10,8 +10,24 @@
 
 import cv2
 
-cam = cv2.CaptureFrom(0)
+class Video():
+	def __init__(self):
+		pass
+	def imagen(self):
+		print("Obteniendo captura....")
 
-image = cv2.QueryFrame(cam)
-
-cv2.SaveImage("imagen.png", image)
+		cap = cv2.VideoCapture(1)
+		cont = 0
+		while cont <= 10:
+			ret, frame = cap.read()
+			cv2.imwrite("captura.png", frame)
+			cv2.imshow("frame", frame)
+			cv2.waitKey(1)
+			cont += 1
+		pass
+		cap.release()
+		cv2.destroyAllWindows()
+		pass
+	pass
+App = Video()
+App.imagen()

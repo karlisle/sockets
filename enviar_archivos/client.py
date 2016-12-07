@@ -9,7 +9,13 @@
 ##############################
 
 # Importamos los módulos  necesarios
-import socket, os, sys
+import socket, os
+import getImage
+
+# Obtenemos la captura
+
+get = getImage.Video()
+get.imagen()
 
 # Definimos el puerto de control CPORT y el puerto multimedia MPORT
 
