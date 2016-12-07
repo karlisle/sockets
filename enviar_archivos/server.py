@@ -29,7 +29,12 @@ class StreamHandler(Thread):
 		self.process() 		
 		pass
 	def bindmsock(self):
+		# Creamos un objeto de socket
 		self.msock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+		# Estas banderas son para evitar que marque el siguiente error:
+		# socket.error: [Errno 98] Address already in use
+		# basicamnete le dice al kernel que no espere y reuse inmediatamente el puerto 
+		self.msock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 		# Enlazamos el self al puerto 9090 (multimedia)
 		self.msock.bind(('', 9090))
 		self.msock.listen(1)
@@ -43,6 +48,7 @@ class StreamHandler(Thread):
 	def bindcsock(self):
 		# Enlazamos al puerto 9091 (control)
 		self.csock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+		self.csock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 		self.csock.bind(('', 9091))
 		self.csock.listen(1)
 		print("[CTRL] esperando en el puerto 9091")
@@ -91,6 +97,8 @@ class StreamHandler(Thread):
 		# Hemos escrito los datos en el nuevo archivo
 		print("[Media] Recivido %s" % self.filename)
 		print("[Media] Cerrando el flujo de %s" % self.filename)
+		self.csock.close()
+		self.cconn.close()
 		pass
 	def close(self):
 		# Cerramos todos los sockets:
