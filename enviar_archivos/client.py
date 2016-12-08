@@ -9,7 +9,7 @@
 ##############################
 
 # Importamos los módulos  necesarios
-import socket, os
+import socket, os, time
 import getImage
 
 class Cliente():
@@ -18,12 +18,37 @@ class Cliente():
 		# Definimos el puerto de control CPORT y el puerto multimedia MPORT
 		self.CPORT = 9091
 		self.MPORT = 9090
+		self.cont = 0
+		pass
+	# Obtenemos el ultimo valor del contador de capturas
+	def getCont(self):
+		f = open("cont.txt", "r")
+		cont = f.readline()
+		f.close()
+		return cont
+		pass
+	#Guardamos el contador en el archivo
+	def setCont(self, value):
+		f = open("cont.txt", "w")
+		f.write(str(value))
+		f.close()
 		pass
 
-	def captura(self):
-		# Obtenemos la captura
+	def captura(self, host):
+		# Obtenemos el contador de capturas almacenado
+		value = self.getCont()
+		# Quitamos los saltos de linea
+		value = value.rstrip("\n")
+		# Incrementamos en 1 el valor del contador
+		self.cont = int(value) + 1
+		# Guardamos el nuevo valor del contador de capturas
+		self.setCont(self.cont)
+		# Instanciamos un objeto de Video
 		get = getImage.Video()
-		get.imagen()
+		# Capturamos una  imagen, para esto enviamos dos parametros
+		# 1.- la direccion del host
+		# 2.- el valor del contador de capturas
+		get.imagen(host, self.cont)
 		pass
 
 	# Definimos una funcion para transformar un tamaño en bytes en un tamaño más 
@@ -42,8 +67,6 @@ class Cliente():
 	def sendImage(self):
 		# Llamamos a la funcion captura, la cual guardara una imagen 
 		# obtenida de la webcam
-
-		self.captura()
 
 		print ("Kalhua, pitbull guard!!")
 
@@ -67,6 +90,8 @@ class Cliente():
 
 		self.HOST = ip
 
+		self.captura(self.HOST)
+
 		# Leer el archivo 
 		archivo  = "captura.png"
 		# Cambiamos comillas para evitar problemas en loas archivos con espacios
@@ -76,6 +101,7 @@ class Cliente():
 		# Se conecta al puerto de control
 		cs.connect((self.HOST, self.CPORT))
 		# Envia la ruta del archivo
+		archivo =str(self.cont) + '_' + self.HOST+ "_" + archivo
 		cs.send(b"SEND" + archivo.encode())
 		print("SEND " + archivo)
 		cs.close()
@@ -101,9 +127,13 @@ class Cliente():
 		# Fin
 		print("Archivo ", archivo,  " enviado (", str(self.humanMode(enBytes)) ,")." )
 		pass
-	
 	pass
 
 App = Cliente()
 
-App.sendImage()
+while True:
+	App.sendImage()
+	time.sleep(10)
+	pass
+
+

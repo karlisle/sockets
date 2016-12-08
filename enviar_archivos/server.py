@@ -12,14 +12,14 @@
 
 import os
 import socket, time, string, sys
-from urllib.parse import urlparse
+from urllib.parse import urlparsecaca
 from threading import *
 
 
 # Creamos un objeto de tipo StreamHandler:
 
 class StreamHandler(Thread):
-	def __init__(self):
+	def __init__(self):#
 		Thread.__init__(self)
 		pass
 
@@ -84,7 +84,7 @@ class StreamHandler(Thread):
 
 		# Lo guardamos en el directorio recivido
 		print
-		f = open('rcv_' + finalName, "wb")
+		f = open(finalName, "wb")
 		# Ahora el bucle que captura los datos del archivo
 		while True:
 			data = self.mconn.recv(1024)

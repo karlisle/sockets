@@ -8,21 +8,22 @@
 # Share&Help                                                         #
 ##############################
 
-import cv2
+import cv2, time
 
 class Video():
 	def __init__(self):
 		pass
-	def imagen(self):
+	def imagen(self, host, number):
 		print("Obteniendo captura....")
 
 		cap = cv2.VideoCapture(1)
+		time.sleep(5)
 		cont = 0
 		while cont <= 10:
 			ret, frame = cap.read()
-			cv2.imwrite("captura.png", frame)
-			cv2.imshow("frame", frame)
-			cv2.waitKey(1)
+			cv2.imwrite(str(number) + '_' + host + "_captura.png", frame)
+			#cv2.imshow("frame", frame)
+			#cv2.waitKey(1)
 			cont += 1
 		pass
 		cap.release()
