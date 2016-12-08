@@ -93,7 +93,7 @@ class Cliente():
 		self.captura(self.HOST)
 
 		# Leer el archivo 
-		archivo  = "captura.png"
+		archivo  = "cap.png"
 		# Cambiamos comillas para evitar problemas en loas archivos con espacios
 		archivo = archivo.replace('"', '')
 		# Creamos un socket que envia la ruta del archivo

@@ -21,7 +21,7 @@ class Video():
 		cont = 0
 		while cont <= 10:
 			ret, frame = cap.read()
-			cv2.imwrite(str(number) + '_' + host + "_captura.png", frame)
+			cv2.imwrite(str(number) + '_' + host + "_cap.png", frame)
 			#cv2.imshow("frame", frame)
 			#cv2.waitKey(1)
 			cont += 1
